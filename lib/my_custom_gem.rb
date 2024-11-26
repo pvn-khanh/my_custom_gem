@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "my_custom_gem/version"
+require_relative "my_custom_gem/version"
 require "my_custom_gem/greeter"
 
 module MyCustomGem
