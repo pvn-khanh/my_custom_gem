@@ -23,6 +23,7 @@ jobs:
     - run: gem build my_custom_gem.gemspec
     - name: Configure RubyGems credentials
       run: |
+        mkdir -p ~/.gem
         echo "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}" > ~/.gem/credentials
       env:
         RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
