@@ -21,6 +21,12 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
     - run: gem build my_custom_gem.gemspec
-    - run: gem push my_custom_gem-*.gem
+    - name: Configure RubyGems credentials
+      run: |
+        echo "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}" > ~/.gem/credentials
       env:
         RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+    - name: Set permissions for credentials
+      run: chmod 0600 ~/.gem/credentials
+    - run: cat ~/.gem/credentials
+    - run: gem push my_custom_gem-*.gem
