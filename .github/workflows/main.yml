@@ -20,7 +20,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-    - run: gem build my_gem.gemspec
-    - run: gem push my_gem-*.gem
+    - run: gem build my_custom_gem.gemspec
+    - run: gem push my_custom_gem-*.gem
       env:
         RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
