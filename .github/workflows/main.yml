@@ -24,10 +24,12 @@ jobs:
     - name: Configure RubyGems credentials
       run: |
         mkdir -p ~/.gem
-        echo "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}" > ~/.gem/credentials
+        echo "---\n:rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}" > ~/.gem/credentials
       env:
         RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
     - name: Set permissions for credentials
       run: chmod 0600 ~/.gem/credentials
     - run: cat ~/.gem/credentials
+    - name: Debug RUBYGEMS_API_KEY length
+      run: echo "${{ secrets.RUBYGEMS_API_KEY }}" | wc -c
     - run: gem push my_custom_gem-*.gem
