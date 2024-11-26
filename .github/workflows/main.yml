@@ -26,7 +26,7 @@ jobs:
         mkdir -p ~/.gem
         echo "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}" > ~/.gem/credentials
       env:
-        RUBYGEMS_API_KEY: rubygems_926f7cdf14990815aa9142eb13199c1e02d6df122e6fbd0e
+        RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
     - name: Set permissions for credentials
       run: chmod 0600 ~/.gem/credentials
     - run: cat ~/.gem/credentials
