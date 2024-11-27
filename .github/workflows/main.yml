@@ -20,20 +20,13 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-    - run: gem build my_custom_gem.gemspec
-    - name: Configure RubyGems credentials
+    - name: publish gem
       run: |
-        mkdir -p ~/.gem
-        echo "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}" > ~/.gem/credentials
+        mkdir -p $HOME/.gem
+        touch $HOME/.gem/credentials
+        chmod 0600 $HOME/.gem/credentials
+        printf -- "---\n:rubygems_api_key: ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
+        gem build *.gemspec
+        gem push *.gem
       env:
-        RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
-    - name: Debug key hash (partial)
-      run: echo "${{ secrets.RUBYGEMS_API_KEY }}" | sha256sum
-    - name: Set permissions for credentials
-      run: chmod 0600 ~/.gem/credentials
-    - run: cat ~/.gem/credentials
-    - name: Update RubyGems
-      run: gem update --system
-    - name: Debug RUBYGEMS_API_KEY length
-      run: echo "${{ secrets.RUBYGEMS_API_KEY }}" | wc -c
-    - run: gem push my_custom_gem-*.gem
+        GEM_HOST_API_KEY: "${{secrets.RUBYGEMS_AUTH_TOKEN}}"
